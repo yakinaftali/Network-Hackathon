@@ -23,7 +23,7 @@ class UDPTrans(Transfer):
         total_received = 0
         while total_received < self.file_size:
             # Receive the payload (data segments) from the server
-            data, _ = self.socket.recvfrom(1024)  # Adjust buffer size as needed
+            data, _ = self.socket.recvfrom(1024)
             total_received += len(data)
 
         total_time = time.time() - self.start_time

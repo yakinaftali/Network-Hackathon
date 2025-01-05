@@ -20,6 +20,7 @@ class ServerPayloadSender:
 
             # Send the payload over UDP to the client
             self.udp_socket.sendto(payload_message, self.client_address)
+            print("udp payload sent")
             sequence_number += 1
 
             # Simulate some delay between sending segments

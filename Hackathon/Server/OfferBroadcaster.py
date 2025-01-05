@@ -14,11 +14,6 @@ class OfferBroadcaster:
         self.udp_port = udp_port
         self.tcp_port = tcp_port
         self.udp_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-
-        # Set socket options only if the platform supports SO_REUSEPORT
-        if platform.system() != 'Windows':
-            self.udp_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEPORT, 1)
-
         self.udp_socket.setsockopt(socket.SOL_SOCKET, socket.SO_BROADCAST, 1)
 
     def start_broadcast(self):

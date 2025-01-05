@@ -22,7 +22,7 @@ class Server:
     def start(self):
         # Start UDP offer broadcaster (as shown before)
         offer_broadcaster = OfferBroadcaster(self.ip, self.udp_port, self.tcp_port)
-        threading.Thread(target=offer_broadcaster.start_broadcast, daemon=True).start()  # Start offer broadcast in a separate thread
+        threading.Thread(target=offer_broadcaster.start_broadcast, daemon=True).start()
 
         # Start listening for connections and handle them
         self.listen_for_connections()
