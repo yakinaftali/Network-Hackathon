@@ -18,7 +18,7 @@ class ClientSpeedTest:
         self.server_udp_port = offer_msg.udp_port
         self.server_tcp_port = offer_msg.tcp_port
 
-    def start_speed_test(self):
+    def start(self):
         """
         tarts the speed test by creating multiple
         TCPTrans and UDPTrans objects based on the number of TCP and UDP connections the user wants

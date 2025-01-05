@@ -1,16 +1,28 @@
-# This is a sample Python script.
+import threading
+import time
+from Hackathon.Server.Server import Server
+from Hackathon.Server.OfferBroadcaster import OfferBroadcaster
+from Hackathon.Server.TCPHandler import TCPHandler
+from Hackathon.Server.UDPHandler import UDPHandler
 
-# Press Shift+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
+def main():
+    # Server parameters
+    server_ip = '0.0.0.0'  # Can use 'localhost' or a specific IP address
+    tcp_port = 12345        # Example TCP port for file transfer
+    udp_port = 12346        # Example UDP port for broadcasting offers
+    file_size = 10485760    # File size in bytes (e.g., 10 MB)
 
+    # Create the server instance
+    server = Server(server_ip, tcp_port, udp_port, file_size)
 
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
+    # Create and start the OfferBroadcaster to send offer messages over UDP
+    offer_broadcaster = OfferBroadcaster(server_ip, udp_port, tcp_port)
+    offer_broadcaster_thread = threading.Thread(target=offer_broadcaster.start_broadcast)
+    offer_broadcaster_thread.daemon = True
+    offer_broadcaster_thread.start()
 
+    # Start the server to listen for incoming TCP/UDP connections
+    server.start()
 
-# Press the green button in the gutter to run the script.
-if __name__ == '__main__':
-    print_hi('PyCharm')
-
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+if __name__ == "__main__":
+    main()

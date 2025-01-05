@@ -6,25 +6,12 @@ from Hackathon.Client.Message import Message
 
 class RequestMessage(Message):
 
-    def __init__(self, input_request_message: bytes):
+    def __init__(self,size):
         super().__init__()
         self.sc_direction=False
         self.type_message = 0x3
-
-
-        try:
-            self.cookie_Validation(input_request_message)
-            logging.info("passed test of coockie validation")
-            self.length_Validation(input_request_message)
-            logging.info("passed test of length validation")
-            self.type_Validation(input_request_message)
-            logging.info("passed test of type validation")
-
-            self.file_size = struct.unpack("!Q", input_request_message[5:13])[0]
-
-            self.message = input_request_message
-            logging.info(f"Request message successfully initialized")
-
-        except Exception as e:
-            logging.error(f"Error initializing request message: {e}")
-            raise
+        request_message = bytearray()
+        request_message.extend(b'\xab\xcd\xdc\xba')
+        request_message.append(self.type_message)
+        request_message.extend(struct.pack('!Q', size))  # File size (8 bytes)
+        self.message = request_message

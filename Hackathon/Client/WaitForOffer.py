@@ -5,6 +5,7 @@ import select
 
 from Hackathon.Client.ClientSpeedTest import ClientSpeedTest
 from Hackathon.Client.OfferMessage import OfferMessage
+from Hackathon.Client.RequestMessage import RequestMessage
 
 
 class WaitForOffer:
@@ -30,12 +31,23 @@ class WaitForOffer:
                 offer_mes = OfferMessage(message)
 
                 if offer_mes:
-                    self.speed_test = ClientSpeedTest(user_parameters, offer_mes,address[0])
                     print(f"Received offer from {address[0]}")
-                    server_udp_port = self.udp_port
-                    server_tcp_port = self.tcp_port
 
-                    self.handle_server_offer(user_parameters, server_udp_port, server_tcp_port)
+                    # Extract the server UDP and TCP ports from the offer
+                    server_udp_port = offer_mes.udp_port
+                    server_tcp_port = offer_mes.tcp_port
+
+                    # Create a speed test object for this server
+                    self.speed_test = ClientSpeedTest(user_parameters, offer_mes, address[0])
+
+                    # After receiving the offer, send a request to the server
+                    req_msg = RequestMessage(user_parameters['file_size'])
+                    server_udp_port.sendto(bytes(req_msg), (address[0], server_udp_port))
+
+                    # Handle the server offer (start transfer)
+                    if self.speed_test:
+                        self.speed_test.start()
+
                     break
 
             except Exception as e:

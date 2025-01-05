@@ -26,10 +26,4 @@ class TCPTrans(Transfer):
         self.log_transfer_details(total_time)
         self.socket.close()
 
-    def calculate_transfer_speed(self):
-        """Calculate the transfer speed in bits per second"""
-        if self.start_time is None:
-            return 0
-        # Assuming self.file_size is in bytes, convert to bits
-        transfer_speed = (self.file_size * 8) / (time.time() - self.start_time)
-        return transfer_speed
+

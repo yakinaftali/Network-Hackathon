@@ -9,7 +9,7 @@ class TCPHandler(Handler):
         super().__init__(file_size)
         self.connection = connection
 
-    def start_transfer(self):
+    def start(self):
         """Start sending the file over TCP."""
         data_sent = 0
         while data_sent < self.file_size:

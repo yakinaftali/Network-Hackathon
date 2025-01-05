@@ -7,7 +7,7 @@ class Handler(ABC):
         self.start_time = start_time or time.time()
 
     @abstractmethod
-    def start_transfer(self):
+    def start(self):
         """Start the transfer process. To be implemented by subclass."""
         pass
 
